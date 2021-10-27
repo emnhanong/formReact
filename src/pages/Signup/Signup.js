@@ -9,9 +9,9 @@ const Signup = (props) => {
     value,
     valuePass,
     valueConfirm,
-    handleSaveValue,
-    handleValueConfirm,
-    handleValuePass,
+    handleChangeEmail,
+    handleChangeConfirmPassWord,
+    handleChangePassWord,
   } = props;
 
   const [show, setShow] = useState({
@@ -36,12 +36,12 @@ const Signup = (props) => {
   return (
     <>
       <div className="signup">
-        <Title title={"Sign up"} />
+        <Title title={"SIGN UP"} />
         <Input
           type="text"
           placeholder="Email"
           value={value}
-          handleChangeInput={handleSaveValue}
+          handleChangeInput={handleChangeEmail}
         />
         <div className="pass">
           {show.showPassword ? (
@@ -49,14 +49,14 @@ const Signup = (props) => {
               type="text"
               placeholder="Password"
               value={valuePass}
-              handleChangeInput={handleValuePass}
+              handleChangeInput={handleChangePassWord}
             />
           ) : (
             <Input
               type="password"
               placeholder="Password"
               value={valuePass}
-              handleChangeInput={handleValuePass}
+              handleChangeInput={handleChangePassWord}
             />
           )}
           <button className="svg" onClick={() => handleShow("pass")}>
@@ -69,14 +69,14 @@ const Signup = (props) => {
               type="text"
               placeholder="Confirm"
               value={valueConfirm}
-              handleChangeInput={handleValueConfirm}
+              handleChangeInput={handleChangeConfirmPassWord}
             />
           ) : (
             <Input
               type="password"
               placeholder="Confirm"
               value={valueConfirm}
-              handleChangeInput={handleValueConfirm}
+              handleChangeInput={handleChangeConfirmPassWord}
             />
           )}
           <button className="svg" onClick={() => handleShow("confirms")}>

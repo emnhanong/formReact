@@ -4,25 +4,29 @@ import Title from "../../components/Title/Title";
 import "../Login/Login.css";
 
 const Login = (props) => {
-  const { value, handleSaveValue, valueLoginPass, handleValueLoginPass } =
-    props;
+  const {
+    value,
+    handleChangeEmail,
+    valueLoginPass,
+    handleChangeLoginPassword,
+  } = props;
 
   return (
     <>
       {
         <div className="login">
-          <Title title="Login" />
+          <Title title="LOGIN" />
           <Input
             type="text"
             placeholder="Email"
             value={value}
-            handleChangeInput={handleSaveValue}
+            handleChangeInput={handleChangeEmail}
           />
           <Input
             type="password"
             placeholder="Password"
-            valueLoginPass={valueLoginPass}
-            handleChangeInput={handleValueLoginPass}
+            value={valueLoginPass}
+            handleChangeInput={handleChangeLoginPassword}
           />
         </div>
       }
