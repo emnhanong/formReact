@@ -1,17 +1,11 @@
 import React from "react";
 import Input from "../../components/Input/Input";
 import Title from "../../components/Title/Title";
-import Button from "../../components/Button/Button";
 import "../Login/Login.css";
 
 const Login = (props) => {
-  const {
-    value,
-    handleBtnNext,
-    handleSaveValue,
-    valueLoginPass,
-    handleValueLoginPass
-  } = props;
+  const { value, handleSaveValue, valueLoginPass, handleValueLoginPass } =
+    props;
 
   return (
     <>
@@ -30,9 +24,6 @@ const Login = (props) => {
             valueLoginPass={valueLoginPass}
             handleChangeInput={handleValueLoginPass}
           />
-          <div className="wrap-btn">
-            <Button name="Back" handleClickBtn={handleBtnNext} />
-          </div>
         </div>
       }
     </>

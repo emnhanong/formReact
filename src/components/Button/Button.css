@@ -15,3 +15,6 @@
   background: #fff;
   border: 1px solid #3BC3DB
 }
+.button button:focus{
+  outline: none;
+}
