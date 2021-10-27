@@ -1,0 +1,16 @@
+.signup{
+  width: 320px;
+  margin: auto;
+}
+.pass{
+  display: flex;
+  position: relative;
+}
+.pass .svg{
+  position: absolute;
+  right: 5px;
+  height: 47px;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
