@@ -7,7 +7,6 @@ import "../Login/Login.css";
 
 const Login = (props) => {
   const { value, valuePass, btn, handleBtnNext, handleSaveValue, handleSubmit,handleValuePass } = props;
-  console.log(valuePass);
   return (
     <>
       {btn ? (
