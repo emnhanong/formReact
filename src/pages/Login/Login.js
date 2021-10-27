@@ -2,16 +2,20 @@ import React from "react";
 import Input from "../../components/Input/Input";
 import Title from "../../components/Title/Title";
 import Button from "../../components/Button/Button";
-import Signup from "../Signup/Signup";
 import "../Login/Login.css";
 
 const Login = (props) => {
-  const { value, valuePass, btn, handleBtnNext, handleSaveValue, handleSubmit,handleValuePass } = props;
+  const {
+    value,
+    handleBtnNext,
+    handleSaveValue,
+    valueLoginPass,
+    handleValueLoginPass
+  } = props;
+
   return (
     <>
-      {btn ? (
-        <Signup />
-      ) : (
+      {
         <div className="login">
           <Title title="Login" />
           <Input
@@ -20,13 +24,17 @@ const Login = (props) => {
             value={value}
             handleChangeInput={handleSaveValue}
           />
-          <Input type="password" placeholder="Password" value={valuePass} handleChangeInput={handleValuePass}/>
+          <Input
+            type="password"
+            placeholder="Password"
+            valueLoginPass={valueLoginPass}
+            handleChangeInput={handleValueLoginPass}
+          />
           <div className="wrap-btn">
             <Button name="Back" handleClickBtn={handleBtnNext} />
-            <Button name="Submit" handleClickBtn={handleSubmit} />
           </div>
         </div>
-      )}
+      }
     </>
   );
 };
