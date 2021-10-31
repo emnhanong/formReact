@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../Signup/Signup.css";
 import Input from "../../components/Input/Input";
 import Title from "../../components/Title/Title";
@@ -6,32 +6,67 @@ import { FaEyeSlash, FaEye } from "react-icons/fa";
 
 const Signup = (props) => {
   const {
-    value,
-    valuePass,
-    valueConfirm,
-    handleChangeEmail,
-    handleChangeConfirmPassWord,
-    handleChangePassWord,
+    isClickSubmit,
+    handleSubmitSuccess,
+    handleSubmitError,
+    isSaveValueSignup,
   } = props;
-
   const [show, setShow] = useState({
     showPassword: false,
     showConfirm: false,
   });
 
-  const handleShow = (params) => {
-    if (params === "pass") {
+  const [valueInputSignUp, setValueInputSignUp] = useState({
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const { email, password, confirmPassword } = valueInputSignUp;
+
+  const handleChangeValueInputSingUp = (e) => {
+    const { name, value } = e.target;
+    setValueInputSignUp({
+      ...valueInputSignUp,
+      [name]: value,
+    });
+  };
+
+  const handleShowPasswordSignUp = (params) => {
+    if (params === "password") {
       setShow({
         ...show,
         showPassword: !show.showPassword,
       });
-    } else if (params === "confirms") {
+    } else if (params === "confirmPassword") {
       setShow({
         ...show,
         showConfirm: !show.showConfirm,
       });
     }
   };
+
+  useEffect(() => {
+    if (isClickSubmit) {
+      if (password && confirmPassword && email) {
+        if (password === confirmPassword) {
+          handleSubmitSuccess(valueInputSignUp);
+        } else if (password !== confirmPassword) {
+          handleSubmitError("Submit Error");
+        }
+      } else {
+        handleSubmitError("Submit Error");
+      }
+    }
+  }, [isClickSubmit]);
+
+  useEffect(() => {
+    setValueInputSignUp({
+      ...valueInputSignUp,
+      email: isSaveValueSignup.email,
+      password: isSaveValueSignup.password,
+      confirmPassword: isSaveValueSignup.confirmPassword,
+    });
+  }, [isSaveValueSignup]);
 
   return (
     <>
@@ -40,26 +75,32 @@ const Signup = (props) => {
         <Input
           type="text"
           placeholder="Email"
-          value={value}
-          handleChangeInput={handleChangeEmail}
+          value={email}
+          name="email"
+          handleInput={(e) => handleChangeValueInputSingUp(e)}
         />
         <div className="pass">
           {show.showPassword ? (
             <Input
               type="text"
               placeholder="Password"
-              value={valuePass}
-              handleChangeInput={handleChangePassWord}
+              value={password}
+              name="password"
+              handleInput={(e) => handleChangeValueInputSingUp(e)}
             />
           ) : (
             <Input
               type="password"
               placeholder="Password"
-              value={valuePass}
-              handleChangeInput={handleChangePassWord}
+              value={password}
+              name="password"
+              handleInput={(e) => handleChangeValueInputSingUp(e)}
             />
           )}
-          <button className="svg" onClick={() => handleShow("pass")}>
+          <button
+            className="svg"
+            onClick={() => handleShowPasswordSignUp("password")}
+          >
             {show.showPassword ? <FaEye /> : <FaEyeSlash />}
           </button>
         </div>
@@ -68,18 +109,23 @@ const Signup = (props) => {
             <Input
               type="text"
               placeholder="Confirm"
-              value={valueConfirm}
-              handleChangeInput={handleChangeConfirmPassWord}
+              value={confirmPassword}
+              name="confirmPassword"
+              handleInput={(e) => handleChangeValueInputSingUp(e)}
             />
           ) : (
             <Input
               type="password"
               placeholder="Confirm"
-              value={valueConfirm}
-              handleChangeInput={handleChangeConfirmPassWord}
+              value={confirmPassword}
+              name="confirmPassword"
+              handleInput={(e) => handleChangeValueInputSingUp(e)}
             />
           )}
-          <button className="svg" onClick={() => handleShow("confirms")}>
+          <button
+            className="svg"
+            onClick={() => handleShowPasswordSignUp("confirmPassword")}
+          >
             {show.showConfirm ? <FaEye /> : <FaEyeSlash />}
           </button>
         </div>

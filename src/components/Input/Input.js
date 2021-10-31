@@ -2,7 +2,7 @@ import React from "react";
 import "../Input/Input.css";
 
 const Input = (props) => {
-  const { value, placeholder, type, handleChangeInput } = props;
+  const { name, value, placeholder, type, handleInput, disabled } = props;
   return (
     <div className="input">
       <input
@@ -10,7 +10,9 @@ const Input = (props) => {
         placeholder={placeholder}
         type={type}
         className="input"
-        onChange={handleChangeInput}
+        onChange={handleInput}
+        name={name}
+        disabled={disabled}
       />
     </div>
   );
