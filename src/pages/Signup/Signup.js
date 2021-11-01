@@ -6,7 +6,7 @@ import { FaEyeSlash, FaEye } from "react-icons/fa";
 
 const Signup = (props) => {
   const { isClickSubmit, SignupSuccess, SignupError, saveDataSignup } = props;
-  const [show, setShow] = useState({
+  const [showValuePassword, setShowValuePassword] = useState({
     showPassword: false,
     showConfirm: false,
   });
@@ -28,15 +28,15 @@ const Signup = (props) => {
 
   const handleShowPasswordSignUp = (params) => {
     if (params === "password") {
-      setShow({
-        ...show,
-        showPassword: !show.showPassword,
+      setShowValuePassword({
+        ...showValuePassword,
+        showPassword: !showValuePassword.showPassword,
       });
     }
     if (params === "confirmPassword") {
-      setShow({
-        ...show,
-        showConfirm: !show.showConfirm,
+      setShowValuePassword({
+        ...showValuePassword,
+        showConfirm: !showValuePassword.showConfirm,
       });
     }
   };
@@ -76,7 +76,7 @@ const Signup = (props) => {
           handleInput={(e) => handleChangeValueInputSingUp(e)}
         />
         <div className="pass">
-          {show.showPassword ? (
+          {showValuePassword.showPassword ? (
             <Input
               type="text"
               placeholder="Password"
@@ -97,11 +97,11 @@ const Signup = (props) => {
             className="svg"
             onClick={() => handleShowPasswordSignUp("password")}
           >
-            {show.showPassword ? <FaEye /> : <FaEyeSlash />}
+            {showValuePassword.showPassword ? <FaEye /> : <FaEyeSlash />}
           </button>
         </div>
         <div className="pass">
-          {show.showConfirm ? (
+          {showValuePassword.showConfirm ? (
             <Input
               type="text"
               placeholder="Confirm"
@@ -122,7 +122,7 @@ const Signup = (props) => {
             className="svg"
             onClick={() => handleShowPasswordSignUp("confirmPassword")}
           >
-            {show.showConfirm ? <FaEye /> : <FaEyeSlash />}
+            {showValuePassword.showConfirm ? <FaEye /> : <FaEyeSlash />}
           </button>
         </div>
       </div>
