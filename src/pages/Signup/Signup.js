@@ -5,12 +5,7 @@ import Title from "../../components/Title/Title";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
 
 const Signup = (props) => {
-  const {
-    isClickSubmit,
-    handleSubmitSuccess,
-    handleSubmitError,
-    isSaveValueSignup,
-  } = props;
+  const { isClickSubmit, SignupSuccess, SignupError, saveDataSignup } = props;
   const [show, setShow] = useState({
     showPassword: false,
     showConfirm: false,
@@ -37,7 +32,8 @@ const Signup = (props) => {
         ...show,
         showPassword: !show.showPassword,
       });
-    } else if (params === "confirmPassword") {
+    }
+    if (params === "confirmPassword") {
       setShow({
         ...show,
         showConfirm: !show.showConfirm,
@@ -49,12 +45,12 @@ const Signup = (props) => {
     if (isClickSubmit) {
       if (password && confirmPassword && email) {
         if (password === confirmPassword) {
-          handleSubmitSuccess(valueInputSignUp);
+          SignupSuccess(valueInputSignUp);
         } else if (password !== confirmPassword) {
-          handleSubmitError("Submit Error");
+          SignupError();
         }
       } else {
-        handleSubmitError("Submit Error");
+        SignupError();
       }
     }
   }, [isClickSubmit]);
@@ -62,11 +58,11 @@ const Signup = (props) => {
   useEffect(() => {
     setValueInputSignUp({
       ...valueInputSignUp,
-      email: isSaveValueSignup.email,
-      password: isSaveValueSignup.password,
-      confirmPassword: isSaveValueSignup.confirmPassword,
+      email: saveDataSignup.email,
+      password: saveDataSignup.password,
+      confirmPassword: saveDataSignup.confirmPassword,
     });
-  }, [isSaveValueSignup]);
+  }, [saveDataSignup]);
 
   return (
     <>

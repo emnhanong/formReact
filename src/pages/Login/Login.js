@@ -4,13 +4,13 @@ import Title from "../../components/Title/Title";
 import "../Login/Login.css";
 
 const Login = (props) => {
-  const { isClickLogin, isCheckInputField, loginSuccess, loginError } = props;
+  const { isClickLogin, saveDataLogin, loginSuccess, loginError } = props;
   const [valueInputLogin, setValueInputLogin] = useState({
     email: "",
     password: "",
   });
 
-  const { password } = valueInputLogin;
+  const { email, password } = valueInputLogin;
 
   const handleChangeValueInputLogin = (e) => {
     const { name, value } = e.target;
@@ -21,23 +21,25 @@ const Login = (props) => {
   };
 
   useEffect(() => {
-    if (password) {
-      if (isCheckInputField.password === password) {
-        loginSuccess(valueInputLogin);
-      } else {
+    if (isClickLogin === true) {
+      if (saveDataLogin.email !== email) {
         loginError();
+      } else if (password) {
+        if (saveDataLogin.password === password) {
+          loginSuccess(valueInputLogin);
+        } else if (saveDataLogin.password !== password) {
+          loginError();
+        }
       }
-    } else {
-      loginError();
     }
-  }, [isClickLogin]);
+  });
 
   useEffect(() => {
     setValueInputLogin({
       ...valueInputLogin,
-      email: isCheckInputField.email,
+      email: saveDataLogin.email,
     });
-  }, [isCheckInputField]);
+  }, [saveDataLogin]);
 
   return (
     <div>

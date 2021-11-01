@@ -8,35 +8,34 @@ const App = () => {
   const [isClickSubmit, setIsClickSubmit] = useState(false);
   const [isClickLogin, setIsClickLogin] = useState(false);
 
-
   const [currentStep, setCurrentStep] = useState({
     step1: true,
     step2: false,
   });
-  
-  const [isCheckInputField, setIsCheckInputField] = useState({
+
+  const [saveDataLogin, setSaveDataLogin] = useState({
     email: "",
     password: "",
   });
 
-  const [isSaveValueSignup, setIsSaveValueSignup] = useState({
+  const [saveDataSignup, setSaveDataSignup] = useState({
     email: "",
-    password:"",
-    confirmPassword:""
-  })
+    password: "",
+    confirmPassword: "",
+  });
 
   const handleClickSubmit = () => {
     setIsClickSubmit(true);
   };
 
-  const handleSubmitError = (param) => {
+  const SignupError = () => {
     setIsClickSubmit(false);
-    console.log(param);
+    alert("Submit Error");
   };
-  
-  const handleSubmitSuccess = (valueSignup) => {
-    setIsCheckInputField({
-      ...isCheckInputField,
+
+  const SignupSuccess = (valueSignup) => {
+    setSaveDataLogin({
+      ...saveDataLogin,
       email: valueSignup.email,
       password: valueSignup.password,
     });
@@ -45,12 +44,12 @@ const App = () => {
       step1: false,
       step2: true,
     });
-    setIsSaveValueSignup({
-      ...isSaveValueSignup,
+    setSaveDataSignup({
+      ...saveDataSignup,
       email: valueSignup.email,
       password: valueSignup.password,
-      confirmPassword: valueSignup.confirmPassword
-    })
+      confirmPassword: valueSignup.confirmPassword,
+    });
   };
 
   const handleClickBack = () => {
@@ -64,28 +63,28 @@ const App = () => {
 
   const handleGetValueInputSignup = () => {
     setIsClickLogin(true);
-  }
+  };
 
   const loginSuccess = (value) => {
-    setIsClickLogin(false)
-    console.log("login Success");
-    console.log(value);
-  }
+    setIsClickLogin(false);
+    alert("Email is:" + value.email);
+    alert("Password is:" + value.password);
+  };
 
   const loginError = () => {
-    setIsClickLogin(false)
-    console.log('login Error');
-  }
+    setIsClickLogin(false);
+    console.log("login Error");
+    alert("Login Error");
+  };
 
   return (
     <div className="App">
       {currentStep.step1 && (
         <Signup
-          currentStep={currentStep}
           isClickSubmit={isClickSubmit}
-          handleSubmitSuccess={handleSubmitSuccess}
-          handleSubmitError={handleSubmitError}
-          isSaveValueSignup={isSaveValueSignup}
+          SignupSuccess={SignupSuccess}
+          SignupError={SignupError}
+          saveDataSignup={saveDataSignup}
         />
       )}
 
@@ -95,8 +94,7 @@ const App = () => {
 
       {currentStep.step2 && (
         <Login
-          isCheckInputField={isCheckInputField}
-          handleSubmitSuccess={handleSubmitSuccess}
+          saveDataLogin={saveDataLogin}
           isClickLogin={isClickLogin}
           loginSuccess={loginSuccess}
           loginError={loginError}
@@ -105,7 +103,7 @@ const App = () => {
 
       {currentStep.step2 && (
         <div className="wrap-btn">
-          <Button name="Submit" handleClickBtn={handleGetValueInputSignup}/>
+          <Button name="Submit" handleClickBtn={handleGetValueInputSignup} />
           <Button name="Back" handleClickBtn={handleClickBack} />
         </div>
       )}
