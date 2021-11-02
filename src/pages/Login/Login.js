@@ -4,42 +4,23 @@ import Title from "../../components/Title/Title";
 import "../Login/Login.css";
 
 const Login = (props) => {
-  const { isClickLogin, saveDataLogin, loginSuccess, loginError } = props;
-  const [valueInputLogin, setValueInputLogin] = useState({
-    email: "",
-    password: "",
-  });
-
-  const { email, password } = valueInputLogin;
-
-  const handleChangeValueInputLogin = (e) => {
-    const { name, value } = e.target;
-    setValueInputLogin({
-      ...valueInputLogin,
-      [name]: value,
-    });
-  };
+  const { isClickLogin, saveDataLogin, loginSuccess, loginError, handleChangeValueInput, valueInput } = props;
+  
+  console.log(valueInput);
 
   useEffect(() => {
     if (isClickLogin === true) {
-      if (saveDataLogin.email !== email) {
+      if (saveDataLogin.email !== valueInput.email) {
         loginError();
-      } else if (password) {
-        if (saveDataLogin.password === password) {
-          loginSuccess(valueInputLogin);
-        } else if (saveDataLogin.password !== password) {
+      } else if (valueInput.password) {
+        if (saveDataLogin.password === valueInput.password) {
+          loginSuccess(valueInput);
+        } else if (saveDataLogin.password !== valueInput.password) {
           loginError();
         }
       }
     }
   });
-
-  useEffect(() => {
-    setValueInputLogin({
-      ...valueInputLogin,
-      email: saveDataLogin.email,
-    });
-  }, [saveDataLogin]);
 
   return (
     <div>
@@ -49,16 +30,16 @@ const Login = (props) => {
           <Input
             type="text"
             placeholder="Email"
-            value={valueInputLogin.email}
+            value={valueInput.email}
             name="email"
-            handleInput={(e) => handleChangeValueInputLogin(e)}
+            handleInput={handleChangeValueInput}
           />
           <Input
             type="password"
             placeholder="Password"
-            value={password}
+            value={valueInput.password}
             name="password"
-            handleInput={(e) => handleChangeValueInputLogin(e)}
+            handleInput={handleChangeValueInput}
           />
         </div>
       }

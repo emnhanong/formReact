@@ -7,6 +7,11 @@ import Button from "./components/Button/Button";
 const App = () => {
   const [isClickSubmit, setIsClickSubmit] = useState(false);
   const [isClickLogin, setIsClickLogin] = useState(false);
+  const [valueInput, setValueInput] = useState({
+    email:'',
+    password:'',
+    confirmPassword:''
+  })
 
   const [currentStep, setCurrentStep] = useState({
     step1: true,
@@ -14,15 +19,17 @@ const App = () => {
   });
 
   const [saveDataLogin, setSaveDataLogin] = useState({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
 
-  const [saveDataSignup, setSaveDataSignup] = useState({
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
+  const handleChangeValueInput = (e) => {
+    const { name, value } = e.target;
+    setValueInput({
+      ...valueInput,
+      [name]: value,
+    });
+  };
 
   const handleClickSubmit = () => {
     setIsClickSubmit(true);
@@ -39,16 +46,16 @@ const App = () => {
       email: valueSignup.email,
       password: valueSignup.password,
     });
+    setValueInput({
+      ...valueInput,
+      email:valueInput.email,
+      password:valueSignup.password,
+      confirmPassword:valueSignup.confirmPassword
+    })
     setCurrentStep({
       ...setCurrentStep,
       step1: false,
       step2: true,
-    });
-    setSaveDataSignup({
-      ...saveDataSignup,
-      email: valueSignup.email,
-      password: valueSignup.password,
-      confirmPassword: valueSignup.confirmPassword,
     });
   };
 
@@ -84,7 +91,8 @@ const App = () => {
           isClickSubmit={isClickSubmit}
           SignupSuccess={SignupSuccess}
           SignupError={SignupError}
-          saveDataSignup={saveDataSignup}
+          handleChangeValueInput={handleChangeValueInput}
+          valueInput={valueInput}
         />
       )}
 
@@ -98,6 +106,8 @@ const App = () => {
           isClickLogin={isClickLogin}
           loginSuccess={loginSuccess}
           loginError={loginError}
+          handleChangeValueInput={handleChangeValueInput}
+          valueInput={valueInput}
         />
       )}
 
