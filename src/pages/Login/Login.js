@@ -4,18 +4,33 @@ import Title from "../../components/Title/Title";
 import "../Login/Login.css";
 
 const Login = (props) => {
-  const { isClickLogin, saveDataLogin, loginSuccess, loginError, handleChangeValueInput, valueInput } = props;
-  
-  console.log(valueInput);
+  const {
+    isClickLogin,
+    saveDataLogin,
+    loginSuccess,
+    loginError,
+  } = props;
+
+  const [valueInputLogin, setValueInputLogin] = useState({
+    email:'',
+    password:''
+  })
+
+
+  const handleChangeValueInputLogin = (e) => {
+    const { name, value } = e.target;
+    setValueInputLogin({
+      ...valueInputLogin,
+      [name]: value,
+    });
+  };
 
   useEffect(() => {
     if (isClickLogin === true) {
-      if (saveDataLogin.email !== valueInput.email) {
-        loginError();
-      } else if (valueInput.password) {
-        if (saveDataLogin.password === valueInput.password) {
-          loginSuccess(valueInput);
-        } else if (saveDataLogin.password !== valueInput.password) {
+      if (valueInputLogin.password) {
+        if (saveDataLogin.password === valueInputLogin.password) {
+          loginSuccess(saveDataLogin);
+        } else if (saveDataLogin.password !== valueInputLogin.password) {
           loginError();
         }
       }
@@ -30,16 +45,16 @@ const Login = (props) => {
           <Input
             type="text"
             placeholder="Email"
-            value={valueInput.email}
+            value={saveDataLogin.email}
             name="email"
-            handleInput={handleChangeValueInput}
+            handleInput={handleChangeValueInputLogin}
           />
           <Input
             type="password"
             placeholder="Password"
-            value={valueInput.password}
+            value={valueInputLogin.password}
             name="password"
-            handleInput={handleChangeValueInput}
+            handleInput={handleChangeValueInputLogin}
           />
         </div>
       }

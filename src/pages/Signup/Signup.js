@@ -5,12 +5,30 @@ import Title from "../../components/Title/Title";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
 
 const Signup = (props) => {
-  const { isClickSubmit, SignupSuccess, SignupError, handleChangeValueInput, valueInput } = props;
+  const { isClickSubmit, SignupSuccess, SignupError, defaultValue } = props;
   const [showValuePassword, setShowValuePassword] = useState({
     showPassword: false,
     showConfirm: false,
   });
+  const [valueInputSignup, setValueInputSignup] = useState({
+    email: defaultValue.email,
+    password: defaultValue.password,
+    confirmPassword: defaultValue.password,
+  });
 
+  const validateEmail = (email) => {
+    const re =
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  };
+
+  const handleChangeValueInputSignup = (e) => {
+    const { name, value } = e.target;
+    setValueInputSignup({
+      ...valueInputSignup,
+      [name]: value,
+    });
+  };
 
   const handleShowPasswordSignUp = (params) => {
     if (params === "password") {
@@ -29,47 +47,42 @@ const Signup = (props) => {
 
   useEffect(() => {
     if (isClickSubmit) {
-      if (valueInput.password && valueInput.confirmPassword && valueInput.email) {
-        if (valueInput.password === valueInput.confirmPassword) {
-          SignupSuccess(valueInput);
-        } else if (valueInput.password !== valueInput.confirmPassword) {
-          SignupError();
-        }
-      } else {
-        SignupError();
-      }
+      if (
+        validateEmail(valueInputSignup.email) &&
+        valueInputSignup.password === valueInputSignup.confirmPassword
+      )
+        SignupSuccess(valueInputSignup);
+      else SignupError();
     }
   }, [isClickSubmit]);
-
-
 
   return (
     <>
       <div className="signup">
         <Title title={"SIGN UP"} />
         <Input
-          type="text"
+          type="email"
           placeholder="Email"
-          value={valueInput.email}
+          value={valueInputSignup.email}
           name="email"
-          handleInput={handleChangeValueInput}
+          handleInput={handleChangeValueInputSignup}
         />
         <div className="pass">
           {showValuePassword.showPassword ? (
             <Input
               type="text"
               placeholder="Password"
-              value={valueInput.password}
+              value={valueInputSignup.password}
               name="password"
-              handleInput={handleChangeValueInput}
+              handleInput={handleChangeValueInputSignup}
             />
           ) : (
             <Input
               type="password"
               placeholder="Password"
-              value={valueInput.password}
+              value={valueInputSignup.password}
               name="password"
-              handleInput={handleChangeValueInput}
+              handleInput={handleChangeValueInputSignup}
             />
           )}
           <button
@@ -84,17 +97,17 @@ const Signup = (props) => {
             <Input
               type="text"
               placeholder="Confirm"
-              value={valueInput.confirmPassword}
+              value={valueInputSignup.confirmPassword}
               name="confirmPassword"
-              handleInput={handleChangeValueInput}
+              handleInput={handleChangeValueInputSignup}
             />
           ) : (
             <Input
               type="password"
               placeholder="Confirm"
-              value={valueInput.confirmPassword}
+              value={valueInputSignup.confirmPassword}
               name="confirmPassword"
-              handleInput={handleChangeValueInput}
+              handleInput={handleChangeValueInputSignup}
             />
           )}
           <button
