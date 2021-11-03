@@ -1,5 +1,4 @@
-.signup {
-}
+
 .pass {
   display: flex;
   position: relative;
@@ -15,4 +14,22 @@
 }
 .pass .svg:focus {
   outline: none;
+}
+.wrap-input{
+  position: relative;
+  height: 90px;
+}
+.valid-text-email{
+  position: absolute;
+  left: 2px;
+  bottom: -33px;
+  color: red;
+  font-size: 14px;
+}
+.valid-text{
+  position: absolute;
+  bottom: 20px;
+  font-size: 14px;
+  left: 2px;
+  color: red;
 }

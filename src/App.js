@@ -5,9 +5,7 @@ import Signup from "./pages/Signup/Signup";
 import Button from "./components/Button/Button";
 
 const App = () => {
-
-
-  const [isClickSubmit, setIsClickSubmit] = useState(false);
+  const [isClickSignup, setIsClickSignup] = useState(false);
   const [isClickLogin, setIsClickLogin] = useState(false);
   const [currentStep, setCurrentStep] = useState({
     step1: true,
@@ -19,16 +17,16 @@ const App = () => {
     password: '',
   });
 
-  const handleClickSubmit = () => {
-    setIsClickSubmit(true);
+  const handleClickSignup = () => {
+    setIsClickSignup(true);
   };
 
   const SignupError = () => {
-    setIsClickSubmit(false);
-    alert("Submit Error");
+    setIsClickSignup(false);
   };
 
   const SignupSuccess = (valueSignup) => {
+    setIsClickSignup(false);
     setSaveDataLogin({
       email: valueSignup.email,
       password: valueSignup.password,
@@ -40,7 +38,7 @@ const App = () => {
   };
 
   const handleClickBack = () => {
-    setIsClickSubmit(false);
+    setIsClickSignup(false);
     setCurrentStep({
       step1: true,
       step2: false,
@@ -59,22 +57,21 @@ const App = () => {
 
   const loginError = () => {
     setIsClickLogin(false);
-    alert("Login Error");
   };
 
   return (
     <div className="App">
       {currentStep.step1 && (
         <Signup
-          isClickSubmit={isClickSubmit}
+          isClickSignup={isClickSignup}
           SignupSuccess={SignupSuccess}
           SignupError={SignupError}
-          defaultValue={saveDataLogin}
+          defaultValueSignup={saveDataLogin}
         />
       )}
 
       {currentStep.step1 && (
-        <Button name="Next" handleClickBtn={handleClickSubmit} />
+        <Button name="Next" handleClickBtn={handleClickSignup} />
       )}
 
       {currentStep.step2 && (

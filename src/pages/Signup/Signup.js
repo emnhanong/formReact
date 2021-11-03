@@ -5,15 +5,21 @@ import Title from "../../components/Title/Title";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
 
 const Signup = (props) => {
-  const { isClickSubmit, SignupSuccess, SignupError, defaultValue } = props;
+  const { isClickSignup, SignupSuccess, SignupError, defaultValueSignup } =
+    props;
   const [showValuePassword, setShowValuePassword] = useState({
     showPassword: false,
     showConfirm: false,
   });
   const [valueInputSignup, setValueInputSignup] = useState({
-    email: defaultValue.email,
-    password: defaultValue.password,
-    confirmPassword: defaultValue.password,
+    email: defaultValueSignup.email,
+    password: defaultValueSignup.password,
+    confirmPassword: defaultValueSignup.password,
+  });
+  const [errorsFields, setErrorsFields] = useState({
+    email: "",
+    password: "",
+    confirmPassword: "",
   });
 
   const validateEmail = (email) => {
@@ -46,27 +52,57 @@ const Signup = (props) => {
   };
 
   useEffect(() => {
-    if (isClickSubmit) {
-      if (
-        validateEmail(valueInputSignup.email) &&
-        valueInputSignup.password === valueInputSignup.confirmPassword
-      )
-        SignupSuccess(valueInputSignup);
-      else SignupError();
+    if (isClickSignup) {
+      const isEmptyFields =
+        valueInputSignup.email === "" ||
+        valueInputSignup.password === "" ||
+        valueInputSignup.confirmPassword === "";
+      const isInvalidFields =
+        !validateEmail(valueInputSignup.email) ||
+        valueInputSignup.password !== valueInputSignup.confirmPassword;
+      const failedSignup = isEmptyFields || isInvalidFields;
+
+      if (failedSignup) {
+        const newErrors = {
+          password: "",
+          confirmPassword: "",
+          email: "",
+        };
+        SignupError();
+        if (valueInputSignup.email === "") newErrors.email = "Email is empty";
+        else if (!validateEmail(valueInputSignup.email))
+          newErrors.email = "Email is invalid";
+        if (valueInputSignup.password === "")
+          newErrors.password = "Password is empty";
+        if (valueInputSignup.confirmPassword === "")
+          newErrors.confirmPassword = "Confirm password is empty";
+        if (
+          valueInputSignup.confirmPassword !== valueInputSignup.password &&
+          valueInputSignup.password &&
+          valueInputSignup.confirmPassword
+        )
+          newErrors.password = "Not match confirm password";
+        setErrorsFields(newErrors);
+      } else SignupSuccess(valueInputSignup);
     }
-  }, [isClickSubmit]);
+  }, [isClickSignup]);
 
   return (
     <>
       <div className="signup">
         <Title title={"SIGN UP"} />
-        <Input
-          type="email"
-          placeholder="Email"
-          value={valueInputSignup.email}
-          name="email"
-          handleInput={handleChangeValueInputSignup}
-        />
+        <div className="wrap-input">
+          <Input
+            type="email"
+            placeholder="Email"
+            value={valueInputSignup.email}
+            name="email"
+            handleInput={handleChangeValueInputSignup}
+          />
+          {errorsFields.email && (
+            <span className="valid-text">{errorsFields.email}</span>
+          )}
+        </div>
         <div className="pass">
           {showValuePassword.showPassword ? (
             <Input
@@ -91,6 +127,9 @@ const Signup = (props) => {
           >
             {showValuePassword.showPassword ? <FaEye /> : <FaEyeSlash />}
           </button>
+          {errorsFields.password && (
+            <span className="valid-text">{errorsFields.password}</span>
+          )}
         </div>
         <div className="pass">
           {showValuePassword.showConfirm ? (
@@ -116,6 +155,9 @@ const Signup = (props) => {
           >
             {showValuePassword.showConfirm ? <FaEye /> : <FaEyeSlash />}
           </button>
+          {errorsFields.confirmPassword && (
+            <span className="valid-text">{errorsFields.confirmPassword}</span>
+          )}
         </div>
       </div>
     </>

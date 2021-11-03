@@ -4,18 +4,17 @@ import Title from "../../components/Title/Title";
 import "../Login/Login.css";
 
 const Login = (props) => {
-  const {
-    isClickLogin,
-    saveDataLogin,
-    loginSuccess,
-    loginError,
-  } = props;
+  const { isClickLogin, saveDataLogin, loginSuccess, loginError } = props;
 
   const [valueInputLogin, setValueInputLogin] = useState({
-    email:'',
-    password:''
-  })
+    email: "",
+    password: "",
+  });
 
+  const [errorsFields, setErrorsFields] = useState({
+    email: "",
+    password: "",
+  });
 
   const handleChangeValueInputLogin = (e) => {
     const { name, value } = e.target;
@@ -26,14 +25,21 @@ const Login = (props) => {
   };
 
   useEffect(() => {
-    if (isClickLogin === true) {
-      if (valueInputLogin.password) {
-        if (saveDataLogin.password === valueInputLogin.password) {
-          loginSuccess(saveDataLogin);
-        } else if (saveDataLogin.password !== valueInputLogin.password) {
-          loginError();
+    if (isClickLogin) {
+      const failedLogin = saveDataLogin.password !== valueInputLogin.password;
+      if (failedLogin) {
+        const errors = {
+          email: '',
+          password: ''
         }
-      }
+        loginError();
+        if (saveDataLogin.password !== valueInputLogin.password) {
+          setErrorsFields({
+            ...errorsFields,
+            password: "Incorrect password",
+          });
+        }
+      } else loginSuccess(saveDataLogin);
     }
   });
 
@@ -49,13 +55,18 @@ const Login = (props) => {
             name="email"
             handleInput={handleChangeValueInputLogin}
           />
-          <Input
-            type="password"
-            placeholder="Password"
-            value={valueInputLogin.password}
-            name="password"
-            handleInput={handleChangeValueInputLogin}
-          />
+          <div className="wrap-input">
+            <Input
+              type="password"
+              placeholder="Password"
+              value={valueInputLogin.password}
+              name="password"
+              handleInput={handleChangeValueInputLogin}
+            />
+            {errorsFields.password && (
+              <span className="valid-text">{errorsFields.password}</span>
+            )}
+          </div>
         </div>
       }
     </div>
